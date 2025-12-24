@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block title %}Top 20 Listesi | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="text-center text-white mb-5">
+        <h1 class="aralikli-baslik display-4"><i class="fa-solid fa-trophy text-warning"></i> ZİRVEDEKİLER</h1>
+        <p class="lead opacity-75">En çok izlenen 20 içerik üreticisi.</p>
+    </div>
+
+    <div class="podium-container">
+        {% if users|length == 0 %}
+            <div class="text-white">Henüz sıralama verisi yok.</div>
+        {% endif %}
+
+        {% for user in users %}
+            {% if loop.index <= 3 %}
+                <div class="podium-card rank-{{ loop.index }}">
+                    <div class="rank-badge mb-2">
+                        {% if loop.index == 1 %}<i class="fa-solid fa-crown"></i> 1.{% endif %}
+                        {% if loop.index == 2 %}<i class="fa-solid fa-medal"></i> 2.{% endif %}
+                        {% if loop.index == 3 %}<i class="fa-solid fa-medal"></i> 3.{% endif %}
+                    </div>
+                    
+                    <a href="{{ url_for('user_profile', username=user.username) }}" class="text-decoration-none text-dark">
+    <img src="{{ url_for('static', filename='uploads/profile_pics/' + user.profile_pic_url) }}" class="podium-avatar">
+    <h5 class="font-weight-bold text-dark text-truncate" style="max-width: 150px; margin: 0 auto;">
+        {{ user.username }}
+    </h5>
+</a>
+                    
+                    <div class="mt-2">
+                        <span class="badge badge-primary p-2">
+                            <i class="fa-solid fa-eye"></i> {{ user.total_views }}
+                        </span>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-9"> {% if users|length > 3 %}
+                <h5 class="text-white mb-3 ml-2 border-bottom pb-2" style="border-color: rgba(255,255,255,0.2) !important;">
+                    Diğer Yıldızlar
+                </h5>
+            {% endif %}
+            
+            {% for user in users %}
+                {% if loop.index > 3 %}
+                <div class="rank-list-item d-flex align-items-center bg-light p-3 mb-2 rounded shadow-sm" style="transition: transform 0.2s;">
+                    
+                    <div class="rank-number text-center mr-3" style="width: 40px; font-size: 1.2rem; font-weight: bold; color: #555;">
+                        #{{ loop.index }}
+                    </div>
+                    
+                    <a href="{{ url_for('user_profile', username=user.username) }}" class="d-flex align-items-center text-decoration-none text-dark" style="flex-grow: 1;">
+    <img src="{{ url_for('static', filename='uploads/profile_pics/' + user.profile_pic_url) }}" 
+            style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-right: 15px; border: 2px solid #ddd;">
+    
+    <div>
+        <h6 class="mb-0 text-dark font-weight-bold">{{ user.username }}</h6>
+        <small class="text-muted">{{ user.name }}</small>
+    </div>
+</a>
+                    
+                    <div class="text-right d-flex align-items-center">
+                        <div class="mr-4 text-muted small d-none d-sm-block">
+                            <i class="fa-solid fa-heart text-danger"></i> {{ user.total_likes }}
+                        </div>
+                        <div class="font-weight-bold text-primary h5 mb-0">
+                            <i class="fa-solid fa-eye"></i> {{ user.total_views }}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+    
+    <div class="text-center mt-4 mb-5 text-white-50 small">
+        <i class="fa-solid fa-ellipsis"></i><br>
+        Sıralama toplam görüntülenme sayısına göredir.
+    </div>
+
+</div>
+
+{% endblock %}

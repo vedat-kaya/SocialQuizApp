@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}Bilgilerimi Güncelle | SorSana{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="login-container" style="padding: 2.5rem;">
+            <h3 class="aralikli-baslik mb-4 text-center">Hesap Bilgileri</h3>
+            
+            <form method="post">
+                <div class="form-group">
+                    <label class="text-white font-weight-bold">İsim Soyisim</label>
+                    <input type="text" name="name" class="form-control" value="{{ user.name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-white font-weight-bold">Kullanıcı Adı</label>
+                    <input type="text" name="username" class="form-control" value="{{ user.username }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-white font-weight-bold">E-Posta Adresi</label>
+                    <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block mt-4" style="border-radius: 30px; font-weight: bold;">
+                    <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet
+                </button>
+                
+                <hr class="bg-secondary mt-4">
+                <small class="text-muted d-block text-center">Şifre değiştirmek için lütfen çıkış yapıp "Şifremi Unuttum" özelliğini kullanın.</small>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

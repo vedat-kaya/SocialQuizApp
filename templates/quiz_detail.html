@@ -1,0 +1,129 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ quiz.title }} | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5 mb-5">
+    
+    <div class="row">
+        
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px);">
+                
+                <div class="position-relative">
+                    <img src="{{ url_for('static', filename='uploads/quiz_covers/' + quiz.cover_image_url) }}" 
+                         class="card-img-top" style="height: 300px; object-fit: cover;">
+                    <div class="card-img-overlay d-flex align-items-end p-0">
+                        <div class="w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);">
+                            <span class="badge badge-primary">{{ quiz.category }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body text-white">
+                    <h3 class="font-weight-bold mb-2">{{ quiz.title }}</h3>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="{{ url_for('static', filename='uploads/profile_pics/' + quiz.profile_pic_url) }}" 
+                             class="rounded-circle mr-2" style="width: 30px; height: 30px; border: 2px solid #fff;">
+                        <small class="text-white-50">Yazar: <a href="/user/{{ quiz.username }}" class="text-white font-weight-bold">{{ quiz.username }}</a></small>
+                    </div>
+
+                    <p class="text-white-50" style="font-size: 0.95rem;">{{ quiz.description }}</p>
+
+                    <div class="d-flex justify-content-between text-muted small mb-4 border-top border-secondary pt-3">
+                        <span><i class="fa-solid fa-list-ol"></i> {{ q_count }} Seçenek</span>
+                        <span><i class="fa-solid fa-eye"></i> {{ quiz.views }} Görüntülenme</span>
+                        <span><i class="fa-solid fa-heart"></i> {{ quiz.likes }} Beğeni</span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a href="/like_quiz/{{ quiz.quiz_id }}" class="btn flex-grow-1 font-weight-bold {{ 'btn-danger' if is_liked else 'btn-outline-danger' }}" style="border-radius: 12px;">
+                            <i class="{{ 'fa-solid' if is_liked else 'fa-regular' }} fa-heart"></i> {{ 'Beğendin' if is_liked else 'Beğen' }}
+                        </a>
+                        
+                        <a href="/save_quiz/{{ quiz.quiz_id }}" class="btn flex-grow-1 font-weight-bold {{ 'btn-light' if is_saved else 'btn-outline-light' }}" style="border-radius: 12px;">
+                            <i class="{{ 'fa-solid' if is_saved else 'fa-regular' }} fa-bookmark"></i> {{ 'Kaydedildi' if is_saved else 'Kaydet' }}
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <h4 class="text-white font-weight-bold mb-4 border-bottom border-secondary pb-2">
+                <i class="fa-solid fa-gamepad text-warning"></i> Bir Mod Seç ve Oyna
+            </h4>
+
+            <div class="row">
+                
+                <div class="col-md-6 mb-3">
+                    <a href="/quiz/{{ quiz.quiz_id }}" class="text-decoration-none">
+                        <div class="mod-karti active-mode">
+                            <div class="icon-box bg-warning text-dark">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-bold text-white mb-1">Turnuva (VS)</h5>
+                                <small class="text-white-50">Seçenekleri 1'e 1 kıyasla, şampiyonu bul.</small>
+                            </div>
+                            <div class="arrow-icon">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <a href="/quiz/{{ quiz.quiz_id }}" class="text-decoration-none">
+                        <div class="mod-karti">
+                            <div class="icon-box bg-primary text-white">
+                                <i class="fa-solid fa-list-check"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-bold text-white mb-1">Klasik Test</h5>
+                                <small class="text-white-50">Soruları cevapla, sonucunu gör.</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="mod-karti disabled-mode">
+                        <div class="icon-box bg-dark border border-secondary text-muted">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h5 class="font-weight-bold text-muted mb-1">Kör Sıralama</h5>
+                            <small class="text-muted">Gelen seçeneği sıraya koy, değiştiremezsin!</small>
+                        </div>
+                        <span class="badge badge-secondary ml-auto">Yakında</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <div class="mod-karti disabled-mode">
+                        <div class="icon-box bg-dark border border-secondary text-muted">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h5 class="font-weight-bold text-muted mb-1">Tier List</h5>
+                            <small class="text-muted">S, A, B, C, D... Katmanlarına ayır.</small>
+                        </div>
+                        <span class="badge badge-secondary ml-auto">Yakında</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert alert-dark mt-3 border-0" style="background: rgba(255,255,255,0.05); color: #aaa;">
+                <i class="fa-solid fa-info-circle mr-2"></i> Bu içeriği arkadaşlarınla paylaşarak onların da sıralamasını görebilirsin.
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

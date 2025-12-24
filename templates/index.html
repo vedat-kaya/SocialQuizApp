@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+
+{% block title %}Ana Sayfa | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="row justify-content-center mt-3">
+    <div class="col-12">
+        <div class="hero-box text-white">
+            <div class="row align-items-center">
+                <div class="col-lg-9">
+                    <h2 class="font-weight-bold aralikli-baslik mb-2">
+                        BİLGİNİ <span style="color: #ffc107;">YARIŞTIRMAYA</span> HAZIR MISIN?
+                    </h2>
+                    
+                    <p class="mb-3 text-light" style="opacity: 0.9; font-size: 1rem;">
+                        SorSana ile binlerce quiz çöz, turnuvalara katıl. Sıkıcı anlarına son ver!
+                    </p>
+                    
+                    {% if session.logged_in %}
+                        <a href="/create_quiz" class="btn btn-warning px-4" style="border-radius: 20px; font-weight: bold;">
+                            <i class="fa-solid fa-plus"></i> Quiz Oluştur
+                        </a>
+                    {% else %}
+                        <a href="/register" class="btn btn-primary px-4" style="border-radius: 20px; font-weight: bold;">
+                            <i class="fa-solid fa-rocket"></i> Katıl
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <div class="col-lg-3 text-center d-none d-lg-block">
+                    <i class="fa-solid fa-gamepad fa-5x" style="opacity: 0.2; transform: rotate(15deg);"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h2 class="text-white aralikli-baslik">
+            <i class="fa-solid fa-fire text-danger"></i> En Popüler Quizler
+        </h2>
+    </div>
+    <div class="col-md-4">
+        <form action="/" method="GET" class="d-flex">
+            <input type="text" name="keyword" class="form-control mr-2" placeholder="Quiz ara..." style="border-radius: 20px;">
+            <button class="btn btn-outline-light" style="border-radius: 20px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% if quizzes %}
+        {% for quiz in quizzes %}
+        <div class="col-6 col-md-4 col-lg-five mb-4"> 
+            <div class="quiz-card">
+                
+                <div style="position: relative;">
+                    <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}">
+                        <img src="{{ url_for('static', filename='uploads/quiz_covers/' + quiz.cover_image_url) }}" class="quiz-card-img">
+                    </a>
+                    
+                    <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px;">
+                        <span class="badge badge-dark p-2 shadow-sm" style="background: rgba(0, 255, 42, 0.8);">
+                            {{ quiz.category }}
+                        </span>
+
+                        <span class="badge badge-primary p-2 shadow-sm">
+                            {% if quiz.quiz_type == 'turnuva' %}
+                                <i class="fa-solid fa-trophy"></i> VS
+                            {% else %}
+                                <i class="fa-solid fa-list-check"></i> Test
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold text-dark mb-1">
+                        <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="text-dark text-decoration-none">
+                            {{ quiz.title | truncate(40) }}
+                        </a>
+                    </h5>
+                    
+                    <small class="text-muted d-block mb-3">
+                        <i class="fa-solid fa-user-circle"></i> {{ quiz.username }}
+                    </small>
+                    
+                    <p class="card-text text-secondary small">
+                        {{ quiz.description | truncate(80) }}
+                    </p>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="small text-muted">
+                            <span><i class="fa-solid fa-eye"></i> {{ quiz.views }}</span>
+                            <span class="ml-2"><i class="fa-solid fa-heart text-danger"></i> {{ quiz.likes }}</span>
+                        </div>
+                        
+                        <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="btn btn-primary btn-sm" style="border-radius: 20px; padding: 5px 20px;">
+                            İncele <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12 text-center text-white mt-5">
+            <i class="fa-solid fa-ghost fa-5x opacity-50 mb-3"></i>
+            <h3>Hiç quiz bulunamadı...</h3>
+            <p>İlk quizi sen oluşturmak ister misin?</p>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

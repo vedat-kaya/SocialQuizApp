@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block title %}Yönetici Paneli | SorSana{% endblock %}
+
+{% block head %}
+<style>
+   
+    .stat-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.2s;
+        height: 100%;
+        border-bottom: 5px solid #ddd;
+    }
+    .stat-card:hover { transform: translateY(-5px); }
+    
+    .stat-icon { font-size: 2.5rem; margin-bottom: 15px; }
+    .stat-number { font-size: 2.5rem; font-weight: 800; color: #333; }
+    .stat-label { font-size: 1.1rem; color: #666; font-weight: 600; }
+
+    
+    .admin-table-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        overflow-x: auto;
+    }
+    .table thead th { border-top: none; border-bottom: 2px solid #dee2e6; color: #495057; }
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="row mb-4 mt-3">
+    <div class="col-12 text-center">
+        <h1 class="aralikli-baslik display-4"><i class="fa-solid fa-user-shield"></i> YÖNETİCİ PANELİ</h1>
+        <p class="lead text-light">Sitenin kontrol merkezi burasıdır.</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    
+    <div class="col-md-4 mb-3">
+        <div class="stat-card" style="border-color: #0d6efd;">
+            <i class="fa-solid fa-users stat-icon text-primary"></i>
+            <div class="stat-number">{{ user_count }}</div>
+            <div class="stat-label">Toplam Üye</div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="stat-card" style="border-color: #ffc107;">
+            <i class="fa-solid fa-layer-group stat-icon text-warning"></i>
+            <div class="stat-number">{{ quiz_count }}</div>
+            <div class="stat-label">Oluşturulan Quiz</div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="stat-card" style="border-color: #198754;">
+            <i class="fa-solid fa-circle-question stat-icon text-success"></i>
+            <div class="stat-number">{{ question_count }}</div>
+            <div class="stat-label">Toplam Soru</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    
+    <div class="col-lg-6 mb-4">
+        <h4 class="aralikli-baslik mb-3"><i class="fa-solid fa-clock-rotate-left"></i> Son Eklenen Quizler</h4>
+        <div class="admin-table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Tür</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quiz in latest_quizzes %}
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('quiz_view', quiz_id=quiz.quiz_id) }}" target="_blank" style="font-weight: bold;">
+                                {{ quiz.title | truncate(25) }}
+                            </a>
+                            <br>
+                            <small class="text-muted">{{ quiz.created_at }}</small>
+                        </td>
+                        <td>
+                            {% if quiz.quiz_type == 'turnuva' %}
+                                <span class="badge badge-warning">Turnuva</span>
+                            {% else %}
+                                <span class="badge badge-info">Klasik</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('delete_quiz_admin', quiz_id=quiz.quiz_id) }}" 
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bu quizi silmek istediğine emin misin? Geri alınamaz!');">
+                                <i class="fa-solid fa-trash"></i> Sil
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        <h4 class="aralikli-baslik mb-3"><i class="fa-solid fa-users-gear"></i> Üye Yönetimi</h4>
+        <div class="admin-table-container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Kullanıcı</th>
+                        <th>Rol</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ url_for('static', filename='uploads/profile_pics/' + user.profile_pic_url) }}" 
+                                     style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px; object-fit: cover;">
+                                <div>
+                                    <strong>{{ user.username }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ user.email }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if user.is_admin %}
+                                <span class="badge badge-danger">Yönetici</span>
+                            {% else %}
+                                <span class="badge badge-secondary">Üye</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not user.is_admin %}
+                            <a href="{{ url_for('delete_user_admin', user_id=user.id) }}" 
+                               class="btn btn-sm btn-outline-danger"
+                               onclick="return confirm('Bu kullanıcıyı yasaklamak istediğine emin misin?');">
+                                <i class="fa-solid fa-ban"></i> Yasakla
+                            </a>
+                            {% else %}
+                                <small class="text-muted">Dokunulmaz</small>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}

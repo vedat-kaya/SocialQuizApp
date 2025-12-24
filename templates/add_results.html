@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}Sonuçları Ayarla | SorSana{% endblock %}
+
+{% block body %}
+<div class="container mt-4 mb-5">
+    <div class="text-center text-white mb-4">
+        <h2 class="font-weight-bold">Sonuçları Tanımla</h2>
+        <p class="opacity-75">Kullanıcı çoğunlukla "A" seçerse ne çıksın, "B" seçerse ne çıksın?</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        <div class="row">
+            {% for key in ['A', 'B', 'C', 'D'] %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100 border-0" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header text-white font-weight-bold text-center" style="background: var(--primary-color);">
+                        <i class="fa-solid fa-poll"></i> Çoğunlukla "{{ key }}" Seçilirse
+                    </div>
+                    <div class="card-body">
+                        
+                        <div class="form-group">
+                            <label class="font-weight-bold text-dark">Sonuç Başlığı</label>
+                            <input type="text" name="title_{{ key }}" class="form-control" 
+                                   placeholder="Örn: Sen Kış Aslanısın!" 
+                                   value="{{ results[key].title if results[key] else '' }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold text-dark">Açıklama</label>
+                            <textarea name="description_{{ key }}" class="form-control" rows="4" 
+                                      placeholder="Sonuçla ilgili güzel bir analiz yaz...">{{ results[key].description if results[key] else '' }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold text-dark">Sonuç Görseli</label>
+                            <input type="file" name="image_{{ key }}" class="form-control-file">
+                        </div>
+
+                        {% if results[key] and results[key].image_url %}
+                            <img src="{{ url_for('static', filename='uploads/quiz_covers/' + results[key].image_url) }}" 
+                                 class="img-fluid rounded mt-2" style="height: 100px; object-fit: cover;">
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5 shadow" style="border-radius: 50px; font-weight: bold;">
+                <i class="fa-solid fa-check-circle"></i> Kaydet ve Yayınla
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

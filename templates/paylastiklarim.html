@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}Paylaştıklarım | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h3 class="text-white font-weight-bold">
+            <i class="fa-solid fa-layer-group text-primary"></i> Paylaştığım Quizler
+        </h3>
+        <a href="/create_quiz" class="btn btn-warning font-weight-bold" style="border-radius: 20px;">
+            <i class="fa-solid fa-plus"></i> Yeni Ekle
+        </a>
+    </div>
+
+    {% if quizzes %}
+        <div class="row">
+            {% for quiz in quizzes %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-0 shadow-lg" style="border-radius: 15px; overflow: hidden; background: rgba(255,255,255,0.95);">
+                    
+                    <div style="position: relative;">
+                        <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}">
+                            <img src="{{ url_for('static', filename='uploads/quiz_covers/' + quiz.cover_image_url) }}" 
+                                 class="card-img-top" style="height: 180px; object-fit: cover;">
+                        </a>
+                        <div style="position: absolute; top: 10px; right: 10px;">
+                            <span class="badge badge-dark">{{ quiz.category }}</span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="font-weight-bold mb-2">
+                            <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="text-dark text-decoration-none">
+                                {{ quiz.title }}
+                            </a>
+                        </h5>
+                        <p class="text-muted small mb-3">{{ quiz.description | truncate(60) }}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fa-solid fa-eye"></i> {{ quiz.views }} • 
+                                <i class="fa-solid fa-heart text-danger"></i> {{ quiz.likes }}
+                            </small>
+                            
+                            <div class="btn-group">
+                                <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="btn btn-sm btn-primary">
+                                    <i class="fa-solid fa-arrow-right"></i> Git
+                                </a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center text-white mt-5">
+            <i class="fa-solid fa-box-open fa-4x opacity-50 mb-3"></i>
+            <h4>Henüz hiç quiz paylaşmamışsın.</h4>
+            <a href="/create_quiz" class="btn btn-outline-light mt-3" style="border-radius: 20px;">Hemen Oluştur</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

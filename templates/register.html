@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% from "includes/_formhelpers.html" import render_field %}
+
+{% block title %}Kayıt Ol | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="row login-page-row" style="margin-top: 3rem;">
+
+    <div class="col-md-6 login-page-text-column">
+        <h1 class="display-4 aralikli-baslik">Topluluğa Katıl!</h1>
+        
+        <p class="lead">
+            "Sorsana"ya kayıt olarak kendi testlerini oluşturabilir, favori testlerini kaydedebilir ve diğer kullanıcılarla etkileşime geçebilirsin.
+        </p>
+        <hr style="background-color: #555;">
+        
+        <p style="font-size: 1.1rem;">
+            Zaten bir hesabın var mı? 
+            <a href="{{ url_for('login') }}" style="font-weight: bold;">
+                Hemen Giriş Yap!
+            </a>
+        </p>
+    </div>
+
+    <div class="col-md-6">
+        <div class="login-container"> 
+            
+            <h3 class="aralikli-baslik text-center">Kayıt Ol</h3>
+            
+            <form method="post" class="register-sayfasi">
+                
+                <h3 class="form-kendi-etiketim">İsim Soyisim</h3>
+                {{ render_field(form.name) }} 
+                
+                <h3 class="form-kendi-etiketim">Kullanıcı Adı</h3>
+                {{ render_field(form.username) }} 
+
+                <h3 class="form-kendi-etiketim">E-Mail Adresi</h3>
+                {{ render_field(form.email) }}
+
+                <h3 class="form-kendi-etiketim">Parola</h3>
+                {{ render_field(form.password) }}
+
+                <h3 class="form-kendi-etiketim">Parola Doğrula</h3>
+                {{ render_field(form.confirm) }}
+                
+                <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+            </form>
+
+        </div> 
+    </div> 
+</div> 
+{% endblock body %}

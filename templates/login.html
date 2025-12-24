@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% from "includes/_formhelpers.html" import render_field %}
+
+{% block title %}Giriş Yap | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="row login-page-row" style="margin-top: 3rem;">
+
+    <div class="col-md-6 login-page-text-column">
+        <h1 class="display-4 aralikli-baslik">Sorsana'ya Hoş Geldin!</h1>
+        
+        <p class="lead">
+            Binlerce interaktif testi çöz, kendi testlerini oluştur, puanları topla ve liderlik tablosunda yüksel!
+        </p>
+        <hr style="background-color: #555;">
+        
+        <p style="font-size: 1.1rem;">
+            Henüz bir hesabın yok mu? 
+            <a href="{{ url_for('register') }}" style="font-weight: bold;">
+                Hemen Kayıt Ol!
+            </a>
+        </p>
+    </div>
+
+    <div class="col-md-6">
+        <div class="login-container"> 
+            
+            <h3 class="aralikli-baslik text-center">Giriş Yap</h3>
+            
+            <form method="post" class="login-sayfasi">
+                
+                {{ render_field(form.username) }} 
+                
+                {{ render_field(form.password) }}
+
+                <button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+            </form>
+
+            <div class="text-center mt-4">
+                <span class="login-divider">VEYA</span>
+            </div>
+            
+            <a href="#" class="btn btn-outline-light btn-block mt-3" style="border-radius: 10px;">
+                <i class="fa-brands fa-google"></i> Google ile Giriş Yap
+            </a>
+            <div class="text-right mt-3">
+                <a href="/sifremi-unuttum" class="sifre-unuttum-link">Şifremi Unuttum</a>
+            </div>
+        </div> 
+    </div> 
+
+</div> 
+
+{% endblock body %}

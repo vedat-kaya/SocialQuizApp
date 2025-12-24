@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}Hata Oluştu | SorSana{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center" style="min-height: 70vh; align-items: center;">
+    <div class="col-md-8 text-center">
+        <div class="login-container" style="padding: 3rem; border-color: #dc3545;">
+            <i class="fa-solid fa-triangle-exclamation fa-5x text-danger mb-4"></i>
+            <h1 class="display-3 aralikli-baslik text-white">500</h1>
+            <h2 class="text-white mb-4">Bizim Tarafta Bir Şeyler Patladı!</h2>
+            <p class="lead text-light mb-4">
+                Sunucularımızda beklenmedik bir hata oluştu. Mühendislerimiz (yani biz) şu an durumu inceliyor.
+                Lütfen biraz sonra tekrar dene.
+            </p>
+            <a href="/" class="btn btn-outline-light btn-lg" style="border-radius: 30px;">
+                <i class="fa-solid fa-rotate-right"></i> Ana Sayfaya Dön
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

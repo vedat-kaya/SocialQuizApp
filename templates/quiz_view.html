@@ -1,0 +1,231 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ quiz.title }} | SorSana{% endblock %}
+
+{% block head %}
+<style>
+    .quiz-solve-container {
+        max-width: 800px; 
+        margin: 0 auto;
+        padding-bottom: 50px;
+    }
+
+    
+    .quiz-solve-header {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        margin-bottom: 30px;
+        margin-top: 2rem;
+        border-bottom: 5px solid #0d6efd;
+    }
+    
+    .quiz-title-main {
+        font-weight: 800;
+        color: #212529;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        letter-spacing: -1px;
+    }
+    .quiz-desc-main {
+        font-size: 1.1rem;
+        color: #6c757d;
+        line-height: 1.6;
+    }
+
+    
+    .question-card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        padding: 30px;
+        margin-bottom: 30px;
+        transition: transform 0.2s;
+    }
+    
+    .question-card:hover {
+        transform: translateY(-2px); 
+    }
+
+   
+    .question-text {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .question-number {
+        background-color: #0d6efd;
+        color: white;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-right: 15px;
+        flex-shrink: 0; 
+    }
+
+    
+    .hidden-radio {
+        display: none;
+    }
+
+    
+    .option-label {
+        display: block;
+        cursor: pointer;
+        margin-bottom: 12px;
+        position: relative;
+    }
+
+    .option-card {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        background-color: #f8f9fa;
+        transition: all 0.2s ease;
+        color: #495057;
+        font-weight: 600;
+        font-size: 1.05rem;
+    }
+
+    
+    .option-letter {
+        width: 30px;
+        height: 30px;
+        border: 2px solid #adb5bd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 0.9rem;
+        color: #adb5bd;
+        transition: all 0.2s;
+        flex-shrink: 0;
+    }
+
+    
+    .option-label:hover .option-card {
+        background-color: #e9ecef;
+        border-color: #ced4da;
+    }
+
+    .hidden-radio:checked + .option-card {
+        background-color: #e7f1ff; 
+        border-color: #0d6efd;    
+        color: #0d6efd;           
+        box-shadow: 0 2px 8px rgba(13, 110, 253, 0.2);
+    }
+
+  
+    .hidden-radio:checked + .option-card .option-letter {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+        color: white;
+    }
+
+    .btn-finish-quiz {
+        background-color: #198754;
+        color: white;
+        font-weight: 800;
+        font-size: 1.2rem;
+        padding: 18px;
+        border-radius: 50px;
+        width: 100%;
+        border: none;
+        box-shadow: 0 4px 15px rgba(25, 135, 84, 0.4);
+        transition: transform 0.2s;
+        margin-top: 20px;
+    }
+    .btn-finish-quiz:hover {
+        background-color: #157347;
+        transform: scale(1.02);
+    }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+<div class="quiz-solve-container">
+    
+    <div class="quiz-solve-header">
+        <h1 class="quiz-title-main aralikli-baslik">{{ quiz.title }}</h1>
+        <p class="quiz-desc-main">{{ quiz.description }}</p>
+        
+        <div class="mt-3">
+            <span class="badge badge-primary p-2 mr-2"><i class="fa-solid fa-eye"></i> {{ quiz.views }}</span>
+            <span class="badge badge-danger p-2"><i class="fa-solid fa-heart"></i> {{ quiz.likes }}</span>
+        </div>
+    </div>
+
+    <form method="post">
+        
+        {% for question in questions %}
+        <div class="question-card">
+            
+            <div class="question-text">
+                <span class="question-number">{{ loop.index }}</span>
+                {{ question.question_text }}
+            </div>
+            
+            <div class="options-area">
+                
+                <label class="option-label">
+                    <input type="radio" name="cevap_{{ question.question_id }}" value="a" class="hidden-radio" required>
+                    <div class="option-card">
+                        <span class="option-letter">A</span>
+                        {{ question.option_a }}
+                    </div>
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="cevap_{{ question.question_id }}" value="b" class="hidden-radio" required>
+                    <div class="option-card">
+                        <span class="option-letter">B</span>
+                        {{ question.option_b }}
+                    </div>
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="cevap_{{ question.question_id }}" value="c" class="hidden-radio" required>
+                    <div class="option-card">
+                        <span class="option-letter">C</span>
+                        {{ question.option_c }}
+                    </div>
+                </label>
+
+                <label class="option-label">
+                    <input type="radio" name="cevap_{{ question.question_id }}" value="d" class="hidden-radio" required>
+                    <div class="option-card">
+                        <span class="option-letter">D</span>
+                        {{ question.option_d }}
+                    </div>
+                </label>
+
+            </div>
+        </div>
+        {% endfor %} 
+        
+        <button type="submit" class="btn btn-finish-quiz">
+            <i class="fa-solid fa-check-circle"></i> TESTİ BİTİR VE SONUCU GÖR
+        </button>
+
+    </form>
+
+</div> 
+
+{% endblock body %}

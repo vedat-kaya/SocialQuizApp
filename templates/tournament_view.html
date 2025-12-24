@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Turnuva: {{ quiz.title }} | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid text-center mt-3">
+    <h2 class="font-weight-bold text-white" style="text-shadow: 0 2px 10px rgba(0,0,0,0.8);">{{ quiz.title }}</h2>
+    <span class="badge badge-dark border border-secondary px-3 py-2">
+        <i class="fa-solid fa-layer-group"></i> Tur: {{ round }} / Kalan: {{ remaining }}
+    </span>
+</div>
+
+<form method="post" id="tournamentForm">
+    <div class="vs-container">
+        
+        <label class="vs-pane vs-pane-left">
+            <input type="radio" name="vote" value="{{ item1.question_id }}" onchange="this.form.submit()" style="display:none;">
+            
+            <img src="{{ url_for('static', filename='uploads/quiz_images/' + item1.image_url) }}" class="vs-image">
+            
+            <div class="vs-name">{{ item1.question_text }}</div>
+        </label>
+
+        <label class="vs-pane">
+            <input type="radio" name="vote" value="{{ item2.question_id }}" onchange="this.form.submit()" style="display:none;">
+            
+            <img src="{{ url_for('static', filename='uploads/quiz_images/' + item2.image_url) }}" class="vs-image">
+            
+            <div class="vs-name">{{ item2.question_text }}</div>
+        </label>
+
+    </div>
+</form>
+
+<div class="text-center mb-5">
+    <a href="/quiz_clear_session/{{ quiz.quiz_id }}" class="btn btn-sm btn-outline-light opacity-50">
+        <i class="fa-solid fa-rotate-right"></i> Başa Sar
+    </a>
+</div>
+
+{% endblock %}

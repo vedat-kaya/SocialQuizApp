@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}Sonucun: {{ result.title }} | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                
+                <div class="position-relative">
+                    {% if result.image_url and result.image_url != 'default_result.png' %}
+                        <img src="{{ url_for('static', filename='uploads/quiz_covers/' + result.image_url) }}" 
+                             class="card-img-top" style="height: 350px; object-fit: cover;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='uploads/quiz_covers/' + quiz.cover_image_url) }}" 
+                             class="card-img-top" style="height: 350px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <div class="card-img-overlay d-flex align-items-end" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);">
+                        <h2 class="text-white font-weight-bold mb-0" style="text-shadow: 0 2px 10px rgba(0,0,0,1);">{{ result.title }}</h2>
+                    </div>
+                </div>
+
+                <div class="card-body p-5 bg-white text-dark text-center">
+                    
+                    <h5 class="text-muted text-uppercase mb-4" style="letter-spacing: 2px; font-size: 0.9rem;">
+                        <i class="fa-solid fa-star"></i> Senin Sonucun
+                    </h5>
+
+                    <p class="lead" style="font-size: 1.2rem; line-height: 1.8; color: #444;">
+                        {{ result.description }}
+                    </p>
+
+                    <hr class="my-5">
+
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-dark px-4 mr-2" style="border-radius: 50px;">
+                            Ana Sayfa
+                        </a>
+                        <a href="/quiz/{{ quiz.quiz_id }}" class="btn btn-primary px-4" style="border-radius: 50px;">
+                            <i class="fa-solid fa-rotate-right"></i> Tekrar Çöz
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

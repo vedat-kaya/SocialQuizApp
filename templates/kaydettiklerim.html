@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Koleksiyonum | SorSana{% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h3 class="text-white font-weight-bold mb-4 border-bottom border-secondary pb-3">
+        <i class="fa-solid fa-bookmark text-warning"></i> Koleksiyonum
+    </h3>
+
+    {% if quizzes %}
+        <div class="row">
+            {% for quiz in quizzes %}
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="quiz-card">
+                    <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}">
+                        <img src="{{ url_for('static', filename='uploads/quiz_covers/' + quiz.cover_image_url) }}" class="quiz-card-img">
+                    </a>
+
+                    <div class="card-body">
+                        <h6 class="font-weight-bold mb-1">
+                            <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="text-dark text-decoration-none">
+                                {{ quiz.title | truncate(30) }}
+                            </a>
+                        </h6>
+                        <small class="text-muted d-block mb-2">Yazar: {{ quiz.author_name }}</small>
+                        
+                        <a href="{{ url_for('quiz_detail', quiz_id=quiz.quiz_id) }}" class="btn btn-sm btn-outline-primary btn-block" style="border-radius: 20px;">
+                            Oyna <i class="fa-solid fa-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center text-white mt-5">
+            <p class="lead opacity-75">Henüz hiçbir quizi kaydetmedin veya beğenmedin.</p>
+            <a href="/" class="btn btn-primary" style="border-radius: 20px;">Keşfete Çık</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

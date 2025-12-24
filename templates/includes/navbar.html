@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top">
+    <a class="navbar-brand" href="/">
+        <img src="{{ url_for('static', filename='img/Sorsanalogo.gif') }}" alt="Sorsana Logo" class="navbar-logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <span class="slogan">
+            Ne bekliyorsun hadi SorSana
+        </span>
+
+        <ul class="navbar-nav ml-auto d-flex align-items-center">
+            
+            <li class="nav-item mr-3">
+                <a class="btn btn-outline-info" href="{{ url_for('leaderboard') }}" style="border-radius: 10px; font-weight: 700;">
+                    <i class="fa-solid fa-trophy"></i> Leaderboard
+                </a>
+            </li>
+            {% if session["is_admin"] %}
+            <li class="nav-item mr-3">
+                <a class="btn btn-danger" href="{{ url_for('admin_panel') }}" style="border-radius: 10px; font-weight: 700; box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);">
+                    <i class="fa-solid fa-user-shield"></i> YÖNETİM
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item mr-3">
+                <a class="btn btn-outline-primary" href="/create_quiz" style="border-radius: 10px; font-weight: 700;">
+                    <i class="fa-solid fa-plus"></i> Quiz Oluştur
+                </a>
+            </li>
+
+            {% if session["logged_in"] %}
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ url_for('static', filename='uploads/profile_pics/' + session.profile_pic_url) }}"
+                             alt="Profil Fotoğrafı"
+                             style="width: 32px; height: 32px; object-fit: cover; border-radius: 50%;">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/profil">Profil</a>
+                        <a class="dropdown-item" href="/paylastiklarim">Paylaştıklarım</a>
+                        <a class="dropdown-item" href="/kaydettiklerim">Kaydettiklerim</a>
+                        <a class="dropdown-item" href="/bilgiler">Kişisel Bilgiler</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="/logout">Çıkış Yap</a>
+                    </div>
+                </li>
+
+            {% else %}
+
+                <li class="nav-item mr-2"> <a class="btn btn-outline-success" href="/login" style="border-radius: 10px; font-weight: 700;">
+                        <i class="fa-solid fa-right-to-bracket"></i> GİRİŞ YAP
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="btn btn-outline-warning" href="/register" style="border-radius: 10px; font-weight: 700;">
+                        <i class="fa-solid fa-user-plus"></i> KAYIT OL
+                    </a>
+                </li>
+                
+                {% endif %}
+        </ul>
+    </div>
+</nav>

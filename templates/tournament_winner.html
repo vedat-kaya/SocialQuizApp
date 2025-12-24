@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}Şampiyon Belli Oldu! | SorSana{% endblock %}
+
+{% block body %}
+
+<canvas id="confetti" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999;"></canvas>
+
+<div class="container text-center mt-5">
+    
+    <h1 class="display-3 font-weight-bold text-white mb-2" style="text-shadow: 0 0 20px #FFD700;">
+        👑 ŞAMPİYON 👑
+    </h1>
+    <p class="lead text-white-50">Zorlu elemelerden sonra kazanan belli oldu!</p>
+
+    <div class="card bg-dark text-white shadow-lg mx-auto mt-4" style="max-width: 600px; border-radius: 20px; border: 4px solid #FFD700; overflow: hidden;">
+        
+        <div class="card-body p-0 position-relative">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(0,0,0,0) 70%);"></div>
+
+            <div style="padding: 20px;">
+                <img src="{{ url_for('static', filename='uploads/quiz_images/' + winner.image_url) }}" 
+                     class="img-fluid rounded shadow" 
+                     style="max-height: 400px; object-fit: contain; width: 100%; border: 2px solid rgba(255,255,255,0.2);">
+            </div>
+            
+            <div class="p-4" style="background: rgba(255, 215, 0, 0.1); border-top: 1px solid #FFD700;">
+                <h2 class="font-weight-bold text-warning mb-0">{{ winner.question_text }}</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 mb-5">
+        <a href="{{ url_for('index') }}" class="btn btn-outline-light btn-lg px-5 mr-3" style="border-radius: 50px;">
+            <i class="fa-solid fa-house"></i> Ana Sayfa
+        </a>
+        <a href="/quiz/{{ quiz.quiz_id }}" class="btn btn-warning btn-lg px-5 font-weight-bold" style="border-radius: 50px; color: #000;">
+            <i class="fa-solid fa-rotate-right"></i> Tekrar Oyna
+        </a>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+   
+    window.onload = function() {
+        var duration = 3 * 1000;
+        var end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 5,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#FFD700', '#ffffff'] 
+            });
+            confetti({
+                particleCount: 5,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#FFD700', '#ffffff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+    };
+</script>
+
+{% endblock %}
