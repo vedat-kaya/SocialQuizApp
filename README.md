@@ -2,9 +2,9 @@
 Mevcut test/quiz uygulamalarında fark ettiğim eksiklikleri (kullanıcı etkileşimi, özelleştirilebilir içerik vb.) gidermek amacıyla bu projeyi geliştirdim. Eğlence sektöründeki standart test mantığını, daha sosyal bir hale getirmeyi hedefledim.
 
 -Kullandığım Teknolojiler
-Backend: Python (Django veya Flask ise buraya yaz)
+Backend: Python ,Django
 
-Frontend: HTML, CSS, (JavaScript varsa ekle)
+Frontend: HTML, CSS, 
 
 Veritabanı: SQLite
 
@@ -14,4 +14,4 @@ Temel web arayüzü ve kullanıcı giriş sistemi tamamlandı.
 
 Test oluşturma modülü eklendi.
 
-Geliştirme süreci devam ediyor (Work in Progress).
+Geliştirme süreci devam ediyor.
