@@ -1,4 +1,17 @@
-# Web_site
-Yapmaya başladığım site bakalım ne kadar ilerleyebileceğim.
+# Interactive Quiz Platform(SorSana)
+Mevcut test/quiz uygulamalarında fark ettiğim eksiklikleri (kullanıcı etkileşimi, özelleştirilebilir içerik vb.) gidermek amacıyla bu projeyi geliştirdim. Eğlence sektöründeki standart test mantığını, daha sosyal bir hale getirmeyi hedefledim.
 
--Amacım aslında tüm test quiz veya başkalarının fikir sunabileceği,sevgililerin beraber çözebilecekleri veya herhangi insanların içerik üretebileceği test quiz uygulamalarındaki gördüğüm eksiklikleri gidererek sadece bu sitenin içeriğinden hepsine ulaşılabilmesini sağlamak eğlence sektörünü ve eğlenmeyi her insan sever aklıma ilk gelen konsept bu olduğu için şuan bu projeyi oluşturmayı hedefliyorum bakalım sonuç ne olacak ?
+-Kullandığım Teknolojiler
+Backend: Python (Django veya Flask ise buraya yaz)
+
+Frontend: HTML, CSS, (JavaScript varsa ekle)
+
+Veritabanı: SQLite
+
+-Mevcut Durum
+
+Temel web arayüzü ve kullanıcı giriş sistemi tamamlandı.
+
+Test oluşturma modülü eklendi.
+
+Geliştirme süreci devam ediyor (Work in Progress).
